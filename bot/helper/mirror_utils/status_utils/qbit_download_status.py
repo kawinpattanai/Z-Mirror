@@ -44,7 +44,7 @@ class QbDownloadStatus:
     def name(self):
         self.__update()
         if self.__info.state in ["metaDL", "checkingResumeData"]:
-            return self.__info.name + " [METADATA]"
+            return f"{self.__info.name} [METADATA]"
         else:
             return self.__info.name
 
