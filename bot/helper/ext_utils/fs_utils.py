@@ -154,7 +154,7 @@ def split_file(path, size, file_, dirpath, split_size, listener, start_time=0, i
             start_time += lpd - 3
             i = i + 1
     else:
-        out_path = ospath.join(dirpath, file_ + ".")
+        out_path = ospath.join(dirpath, f"{file_}.")
         listener.suproc = Popen(["split", "--numeric-suffixes=1", "--suffix-length=3", f"--bytes={split_size}", path, out_path])
         listener.suproc.wait()
         if listener.suproc.returncode == -9:

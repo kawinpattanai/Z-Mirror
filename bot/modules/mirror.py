@@ -78,7 +78,7 @@ class MirrorListener:
             m_path = f'{DOWNLOAD_DIR}{self.uid}/{name}'
         size = get_path_size(m_path)
         if self.isZip:
-            path = m_path + ".zip"
+            path = f"{m_path}.zip"
             with download_dict_lock:
                 download_dict[self.uid] = ZipStatus(name, size, gid, self, self.message)
             if self.pswd is not None:
@@ -166,10 +166,12 @@ class MirrorListener:
                             with download_dict_lock:
                                 download_dict[self.uid] = SplitStatus(up_name, size, gid, self, self.message)
                             LOGGER.info(f"Splitting: {up_name}")
-                        res = split_file(f_path, f_size, file_, dirpath, TG_SPLIT_SIZE, self)
-                        if not res:
+                        if res := split_file(
+                            f_path, f_size, file_, dirpath, TG_SPLIT_SIZE, self
+                        ):
+                            osremove(f_path)
+                        else:
                             return
-                        osremove(f_path)
         if self.isLeech:
             size = get_path_size(f'{DOWNLOAD_DIR}{self.uid}')
             LOGGER.info(f"Leech Name: {up_name}")
